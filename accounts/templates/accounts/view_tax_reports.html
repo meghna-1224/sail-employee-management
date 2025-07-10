@@ -1,0 +1,32 @@
+{% extends "accounts/base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Tax Reports</h2>
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Financial Year</th>
+        <th>Tax %</th>
+        <th>Tax Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tax in tax_records %}
+      <tr>
+        <td>{{ tax.employee.user.get_full_name }}</td>
+        <td>{{ tax.employee.department.name }}</td>
+        <td>{{ tax.financial_year }}</td>
+        <td>{{ tax.tax_percentage }}%</td>
+        <td>₹{{ tax.tax_amount }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5">No tax records available.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

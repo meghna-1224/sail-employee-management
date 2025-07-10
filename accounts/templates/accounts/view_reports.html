@@ -1,0 +1,27 @@
+{% extends "accounts/base.html" %}
+{% block content %}
+<h2>Reports Overview</h2>
+<p>This page will display all reports for review.</p>
+<!-- Example table -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Report ID</th>
+            <th>Title</th>
+            <th>Submitted By</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>RPT001</td>
+            <td>Monthly Attendance</td>
+            <td>HR001</td>
+            <td>June 30, 2025</td>
+            <td>Pending</td>
+        </tr>
+        <!-- Add more rows dynamically -->
+    </tbody>
+</table>
+{% endblock %}

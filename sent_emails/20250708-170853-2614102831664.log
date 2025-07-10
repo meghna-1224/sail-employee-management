@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset requested
+From: webmaster@localhost
+To: abhishek@sail.co.in
+Date: Tue, 08 Jul 2025 11:38:53 -0000
+Message-ID: <175197473323.3528.17020508318412571326@DESKTOP-UR4K5VO>
+
+
+Hello HR0001,
+
+You requested a password reset for your account on 127.0.0.1:8000.
+
+Please click the link below to reset your password:
+
+http://127.0.0.1:8000/reset/NA/csmsyt-9ed6d0f0f9981d62e73f6a7da75e2faf/
+
+If you didn’t request this, you can ignore this email.
+
+Thanks,
+The 127.0.0.1:8000 Team
+
+
+-------------------------------------------------------------------------------

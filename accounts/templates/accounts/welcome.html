@@ -1,0 +1,77 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Welcome - SAIL Employee Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 80vh;">
+  <!-- Welcome Heading -->
+  <h1 class="text-center mb-5">Welcome to <span style="color:#007bff;">SAIL Employee Management System</span></h1>
+
+  <!-- Portal Cards -->
+  <div class="row justify-content-center mb-5 w-100">
+    <!-- Employee Portal -->
+    <div class="col-md-4 mb-4" data-aos="fade-right">
+      <div class="card h-100 text-center portal-card">
+        <div class="card-body d-flex flex-column">
+          <div class="portal-icon mb-3">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <h4 class="card-title">Employee Portal</h4>
+          <p class="card-text flex-grow-1">View your profile, attendance, shift details, and more.</p>
+          <a href="{% url 'employee_login' %}" class="btn btn-primary mt-3">Login</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- HR Portal -->
+    <div class="col-md-4 mb-4" data-aos="fade-left">
+      <div class="card h-100 text-center portal-card">
+        <div class="card-body d-flex flex-column">
+          <div class="portal-icon mb-3">
+            <i class="bi bi-person-badge-fill"></i>
+          </div>
+          <h4 class="card-title">HR Manager</h4>
+          <p class="card-text flex-grow-1">Manage employee data, review records, control access.</p>
+          <a href="{% url 'hr_login' %}" class="btn btn-success mt-3">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Information Section -->
+<div class="container mt-5">
+  <div class="mb-5" data-aos="fade-right">
+    <h2>About Bhilai Steel Plant</h2>
+    <p class="info-text">
+      The Bhilai Steel Plant, a flagship unit of Steel Authority of India Limited (SAIL), is India’s first and foremost producer of steel rails and a major contributor to the nation's infrastructure.
+    </p>
+  </div>
+
+  <div class="mb-5" data-aos="fade-left">
+    <h2>Key Facts</h2>
+    <ul class="info-text">
+      <li><strong>Founded:</strong> 1955</li>
+      <li><strong>Employees:</strong> ~25,000+</li>
+      <li><strong>Annual Production:</strong> Over 3 million tonnes</li>
+      <li><strong>Location:</strong> Bhilai, Chhattisgarh</li>
+    </ul>
+  </div>
+
+  <div class="mb-5" data-aos="fade-right">
+    <h2>Vision & Mission</h2>
+    <p class="info-text">
+      To become a global leader in steel production by fostering innovation, sustainability, and customer satisfaction.
+    </p>
+  </div>
+
+  <div class="mb-5" data-aos="fade-up">
+    <h2>Latest News & Updates</h2>
+    <ul class="info-text">
+      <li>July 2025: New training program launched for technical staff.</li>
+      <li>June 2025: Bhilai Steel Plant achieves record production milestone.</li>
+      <li>May 2025: CSR initiatives expanded to local communities.</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

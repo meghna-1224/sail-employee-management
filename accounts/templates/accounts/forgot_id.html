@@ -1,0 +1,28 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Forgot ID{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h2>Forgot Your ID?</h2>
+    <p>Enter your registered email address below.</p>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    {% if user_id %}
+        <p>Your User ID is: <strong>{{ user_id }}</strong></p>
+        <a href="{% url 'welcome' %}" class="btn btn-primary">Return to Home</a>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" name="email" id="email" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Retrieve ID</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

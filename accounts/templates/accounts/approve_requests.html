@@ -1,0 +1,29 @@
+{% extends "accounts/base.html" %}
+{% block content %}
+<h2>Approve Requests</h2>
+<p>This page will list pending approvals.</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Request ID</th>
+            <th>Type</th>
+            <th>Submitted By</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>REQ001</td>
+            <td>Leave Approval</td>
+            <td>EMP0003</td>
+            <td>July 4, 2025</td>
+            <td>
+                <button class="btn btn-success">Approve</button>
+                <button class="btn btn-danger">Reject</button>
+            </td>
+        </tr>
+        <!-- Add more rows dynamically -->
+    </tbody>
+</table>
+{% endblock %}

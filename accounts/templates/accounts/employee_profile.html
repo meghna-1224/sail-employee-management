@@ -1,0 +1,39 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+{% block title %}Employee Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h3>{{ emp.user.get_full_name }}</h3>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <p><strong>Phone:</strong> {{ emp.phone }}</p>
+          <p><strong>DOB:</strong> {{ emp.dob }} &nbsp;|&nbsp; Today: {{ emp.dob|date:"l" }}</p>
+          <p><strong>Date of Joining:</strong> {{ emp.date_of_joining }} &nbsp;|&nbsp; Today: {{ emp.date_of_joining|date:"l" }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Email:</strong> {{ emp.user.email }}</p>
+          <p><strong>Department:</strong> {{ emp.department.name }}</p>
+          <p><strong>Post:</strong> {{ emp.post.name|default:"—" }}</p>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Supervisor:</strong> {{ emp.supervisor|default:"—" }}</p>
+          <p><strong>Department Location:</strong> {{ emp.department_location|default:"—" }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Salary:</strong> ₹{{ emp.salary|default:"—" }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

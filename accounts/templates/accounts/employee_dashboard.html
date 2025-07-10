@@ -1,0 +1,87 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h2>Welcome, {{ request.user.get_full_name }}</h2>
+    <p class="text-muted">
+      {% if is_gm %}
+        General Manager
+      {% elif is_hr %}
+        HR
+      {% else %}
+        Employee
+      {% endif %}
+    </p>
+  </div>
+
+
+  {% if profile %}
+  <table class="table table-bordered table-striped">
+    <tbody>
+      <tr>
+        <th scope="row">Full Name</th>
+        <td>{{ request.user.get_full_name }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Email</th>
+        <td>{{ request.user.email }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Role</th>
+        <td>
+          {% if is_gm %}
+            General Manager
+          {% elif is_hr %}
+            HR
+          {% else %}
+            Employee
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Department</th>
+        <td>{{ profile.department.name }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Phone</th>
+        <td>{{ profile.phone }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Date of Birth</th>
+        <td>{{ profile.dob }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Date of Joining</th>
+        <td>{{ profile.date_of_joining|default:"N/A" }}</td>
+      </tr>
+      {% if not is_gm %}
+      <tr>
+        <th scope="row">Supervisor</th>
+        <td>{{ profile.supervisor|default:"N/A" }}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <th scope="row">Department Location</th>
+        <td>{{ profile.department_location|default:"N/A" }}</td>
+      </tr>
+      {% if profile.salary %}
+        {% if is_gm or is_hr %}
+        <tr>
+          <th scope="row">Salary</th>
+          <td>₹{{ profile.salary }}</td>
+        </tr>
+        {% endif %}
+      {% endif %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  {% if is_gm %}
+  <div class="mt-4 d-flex gap-3">
+    <a href="{% url 'view_reports' %}" class="btn btn-primary">View All Reports</a>
+    <a href="{% url 'approve_requests' %}" class="btn btn-success">Approve Requests</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

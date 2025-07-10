@@ -1,0 +1,142 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+<!-- ✅ HR Profile Card -->
+<div class="hr-profile-card" style="border:1px solid #ddd; padding:15px; border-radius:8px; background:#f9f9f9; margin-bottom:20px;">
+  <h2>Welcome, {{ profile.user.first_name }} {{ profile.user.last_name }} ({{ profile.get_hr_role_display }})</h2>
+  <p><strong>Username:</strong> {{ profile.user.username }}</p>
+  <p><strong>Email:</strong> {{ profile.user.email }}</p>
+  <p><strong>Contact Phone:</strong> {{ profile.contact_phone }}</p>
+  <p><strong>Department:</strong> {{ profile.department_name }}</p>
+</div>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+  </div>
+
+  <!-- ✅ Summary Cards -->
+  <div class="row">
+    <div class="col-md-3 mb-3">
+      <div class="card text-white bg-primary">
+        <div class="card-body">
+          <h5 class="card-title">Total Employees</h5>
+          <p class="card-text display-6">{{ total_employees }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card text-white bg-success">
+        <div class="card-body">
+          <h5 class="card-title">Payroll Processed</h5>
+          <p class="card-text display-6">{{ payroll_processed }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card text-white bg-warning">
+        <div class="card-body">
+          <h5 class="card-title">Pending Bank Verifications</h5>
+          <p class="card-text display-6">{{ pending_bank_verifications }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card text-white bg-info">
+        <div class="card-body">
+          <h5 class="card-title">Notices</h5>
+          <p class="card-text">{{ notices }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Month Filter Form -->
+  <div class="mt-4 mb-3">
+    <form method="get" class="form-inline">
+      <label for="month" class="me-2">Filter by Month:</label>
+      <input 
+        type="month" 
+        id="month" 
+        name="month" 
+        value="{{ selected_month|default:'' }}" 
+        class="form-control me-2"
+      >
+      <button type="submit" class="btn btn-primary">Apply</button>
+      {% if selected_month %}
+        <a href="{% url 'hr_dashboard' %}" class="btn btn-secondary ms-2">Clear</a>
+      {% endif %}
+    </form>
+  </div>
+
+  <!-- ✅ Recent Joinings -->
+  <div class="mt-4">
+    <h4>Recent Joinings</h4>
+    <table class="table table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Date of Joining</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for emp in recent_joinings %}
+        <tr>
+          <td>{{ emp.user.get_full_name }}</td>
+          <td>{{ emp.department.name }}</td>
+          <td>{{ emp.date_of_joining|default:"N/A" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3">No recent joinings.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ✅ Salary Records -->
+  <div class="mt-4">
+    <h4>Salary Records{% if selected_month %} for {{ selected_month }}{% endif %}</h4>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Employee</th>
+          <th>Department</th>
+          <th>Month</th>
+          <th>Salary Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in salary_records %}
+        <tr>
+          <td>{{ record.employee.user.get_full_name }}</td>
+          <td>{{ record.employee.department.name }}</td>
+          <td>{{ record.month }}</td>
+          <td>₹{{ record.amount }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4">No salary records found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ✅ Quick Actions -->
+  <div class="mt-4">
+    <h4>Quick Actions</h4>
+    <div class="d-flex flex-wrap gap-2">
+      <a href="{% url 'download_payroll_report' %}" class="btn btn-primary">
+        <i class="bi bi-download me-1"></i> Download Payroll Report
+      </a>
+      <a href="{% url 'view_bank_details' %}" class="btn btn-secondary">
+        <i class="bi bi-bank me-1"></i> View Bank Details
+      </a>
+      <a href="{% url 'view_tax_reports' %}" class="btn btn-success">
+        <i class="bi bi-file-earmark-text me-1"></i> View Tax Reports
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
