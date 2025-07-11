@@ -163,10 +163,10 @@ class AttendanceRecord(models.Model):
     
 
 SHIFT_TIMES = {
-    'A': (time(6, 0), time(14, 0)),   # 6:00 AM – 2:00 PM
-    'B': (time(14, 0), time(22, 0)),  # 2:00 PM – 10:00 PM
-    'C': (time(22, 0), time(6, 0)),   # 10:00 PM – 6:00 AM (next day)
-    "General": (time(9, 0), time(18, 0)),  # General Shift
+    'A': (time(6, 0), time(14, 0)),  
+    'B': (time(14, 0), time(22, 0)),  
+    'C': (time(22, 0), time(6, 0)),   
+    "General": (time(9, 0), time(18, 0)),  
 }
 
 class Attendance(models.Model):
@@ -174,7 +174,7 @@ class Attendance(models.Model):
     employee = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateField()
     punch_in = models.DateTimeField()
-    punch_out = models.DateTimeField(null=True, blank=True)  # allow empty
+    punch_out = models.DateTimeField(null=True, blank=True) 
     shift = models.CharField(max_length=10)
     late = models.BooleanField(default=False)
 

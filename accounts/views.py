@@ -71,14 +71,13 @@ def employee_dashboard(request):
         }
     )
 
-# 🚀 HR DASHBOARD
 @login_required
 def hr_dashboard(request):
     if request.user.role != "hr":
         return redirect("login")
 
     profile = HRProfile.objects.get(user=request.user)
-    hr_role = profile.hr_role  # general, payroll, training
+    hr_role = profile.hr_role  
 
     if hr_role == "general":
         departments = Department.objects.all()
@@ -101,12 +100,12 @@ def hr_dashboard(request):
         )
 
     elif hr_role == "payroll":
-        # 🟢 Get month filter
+        
         month_param = request.GET.get("month")
         salary_records = SalaryRecord.objects.all().order_by("-month")
 
         if month_param:
-            # Expecting format YYYY-MM
+            
             try:
                 year_str, month_str = month_param.split("-")
                 year = int(year_str)
@@ -116,7 +115,7 @@ def hr_dashboard(request):
                     month__month=month
                 )
             except (ValueError, IndexError):
-                # Invalid format, ignore the filter or handle as needed
+                
                 pass
 
         return render(
@@ -287,7 +286,7 @@ def download_payroll_report(request):
     if profile.hr_role != "payroll":
         return redirect("hr_dashboard")
 
-    # Prepare response
+    
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="payroll_report.csv"'
 
@@ -316,7 +315,7 @@ def view_bank_details(request):
     if profile.hr_role != "payroll":
         return redirect("hr_dashboard")
 
-    # Placeholder response
+    
     return HttpResponse("<h2>Bank Details Page Coming Soon</h2>")
 
 @login_required
@@ -328,7 +327,7 @@ def view_tax_reports(request):
     if profile.hr_role != "payroll":
         return redirect("hr_dashboard")
 
-    # Placeholder response
+    
     return HttpResponse("<h2>Tax Reports Page Coming Soon</h2>")
 
 @login_required
@@ -358,7 +357,7 @@ def view_tax_reports(request):
 @login_required
 def training_hr_dashboard(request):
     if request.user.hrprofile.hr_role != 'training':
-        return redirect('unauthorized')  # Or show an error page
+        return redirect('unauthorized') 
 
     programs = TrainingProgram.objects.all().order_by('-start_date')
     records = EmployeeTrainingRecord.objects.select_related('employee', 'training_program')
@@ -418,24 +417,24 @@ class CustomPasswordResetView(PasswordResetView):
     success_url = '/forgot-password/'
 
     def form_valid(self, form):
-        # Get the user model
+        
         UserModel = get_user_model()
         email = form.cleaned_data["email"]
 
         try:
             user = UserModel.objects.get(email=email)
         except UserModel.DoesNotExist:
-            # If the email is invalid, behave normally (no info leak)
+            
             return super().form_valid(form)
 
-        # Build the reset link
+        
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
         reset_url = self.request.build_absolute_uri(
             reverse('password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
         )
 
-        # Show the reset link in the template
+        
         return TemplateResponse(
             self.request,
             'accounts/password_reset_done_with_link.html',
@@ -446,7 +445,7 @@ class CustomPasswordResetView(PasswordResetView):
         )
     
 
-# views.py
+
 from django.shortcuts import render
 from .models import Attendance, EmployeeProfile
 from datetime import date
@@ -456,7 +455,7 @@ def attendance_dashboard(request):
     employees = EmployeeProfile.objects.all()
     records = Attendance.objects.all().order_by('-date')
 
-    # Handle filters
+    
     selected_employee = request.GET.get('employee')
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
@@ -468,7 +467,7 @@ def attendance_dashboard(request):
     if end_date:
         records = records.filter(date__lte=end_date)
 
-    # Calculate hours worked safely
+    
     for record in records:
         if record.punch_in and record.punch_out:
             duration = record.punch_out - record.punch_in
@@ -524,7 +523,7 @@ def punch_out(request):
     user = request.user
     today = timezone.localdate()
 
-    # Find existing punch-in without punch-out
+    
     record = Attendance.objects.filter(
         user=user,
         date=today,
@@ -534,7 +533,7 @@ def punch_out(request):
         messages.error(request, "You have not punched in yet.")
         return redirect('my_attendance')
 
-    # Record punch-out
+    
     record.punch_out = timezone.now()
     record.save()
     messages.success(request, "Punch out recorded.")
@@ -549,16 +548,16 @@ from .models import Attendance, EmployeeProfile, SHIFT_TIMES
 
 @login_required
 def my_attendance(request):
-    # Try to get employee profile
+    
     try:
         profile = EmployeeProfile.objects.get(user=request.user)
     except EmployeeProfile.DoesNotExist:
         messages.error(request, "You do not have an employee profile. Attendance tracking is only for employees.")
-        return redirect('hr_dashboard')  # Or wherever you want HR to go
+        return redirect('hr_dashboard')  
 
     today = timezone.localdate()
 
-    # Check today's record
+    
     record = Attendance.objects.filter(employee=profile, date=today).first()
 
     if request.method == 'POST':
@@ -568,11 +567,11 @@ def my_attendance(request):
                 messages.error(request, "You have already punched in today.")
             else:
                 now = timezone.localtime()
-                # Define the shift start time (assuming General shift)
+                
                 shift_start_time = SHIFT_TIMES['General'][0]
                 scheduled_start = timezone.make_aware(datetime.combine(today, shift_start_time))
 
-                # Compare with 10-minute grace period
+                
                 late = now > scheduled_start + timedelta(minutes=10)
 
                 Attendance.objects.create(
@@ -606,7 +605,7 @@ def my_attendance(request):
                     record.save()
                     messages.success(request, "Punch out successful.")
 
-    # Recent records
+    
     recent_records = Attendance.objects.filter(employee=profile).order_by('-date')[:30]
 
     context = {

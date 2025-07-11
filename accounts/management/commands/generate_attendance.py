@@ -17,24 +17,24 @@ class Command(BaseCommand):
         today = timezone.now().date()
 
         for employee in employees:
-            for i in range(10):  # Generate 10 random days per employee
-                # Pick random day in last 30 days
+            for i in range(10):  
+                
                 random_days_ago = random.randint(1, 30)
                 day = today - timedelta(days=random_days_ago)
 
-                # Randomly pick a shift (including General)
+                
                 shift_label = random.choice(['A', 'B', 'C', 'General'])
                 shift_start, shift_end = SHIFT_TIMES[shift_label]
 
-                # Generate punch-in time (within 0-15 mins of shift start)
+                
                 punch_in_time = datetime.combine(day, shift_start) + timedelta(minutes=random.randint(0, 15))
 
-                # Determine if late (10-minute grace period)
+                
                 scheduled_start = datetime.combine(day, shift_start)
                 grace_time = scheduled_start + timedelta(minutes=10)
                 late = punch_in_time > grace_time
 
-                # Generate punch-out time (within 0-15 mins after shift end)
+                
                 if shift_label == 'C' and shift_end < shift_start:
                     punch_out_day = day + timedelta(days=1)
                 else:
@@ -42,7 +42,7 @@ class Command(BaseCommand):
 
                 punch_out_time = datetime.combine(punch_out_day, shift_end) + timedelta(minutes=random.randint(0, 15))
 
-                # Save attendance
+                
                 Attendance.objects.create(
                     employee=employee,
                     user=employee.user,
@@ -50,7 +50,7 @@ class Command(BaseCommand):
                     punch_in=punch_in_time,
                     punch_out=punch_out_time,
                     shift=shift_label,
-                    late=late  # ✅ Save late flag
+                    late=late  
                 )
 
                 self.stdout.write(self.style.SUCCESS(

@@ -54,7 +54,7 @@ class EmployeeCreationForm(forms.Form):
     salary = forms.DecimalField(max_digits=10, decimal_places=2, required=True)  
 
     def save(self):
-        # Determine next EMP ID
+        
         last_user = CustomUser.objects.filter(role="employee").order_by("-id").first()
         if last_user and last_user.username.startswith("EMP"):
             num = int(last_user.username.replace("EMP", "")) + 1
@@ -62,7 +62,7 @@ class EmployeeCreationForm(forms.Form):
             num = 1
         username = f"EMP{num:04d}"
 
-        # Create user
+        
         user = CustomUser.objects.create(
             username=username,
             email=self.cleaned_data["email"],
@@ -72,7 +72,7 @@ class EmployeeCreationForm(forms.Form):
             role="employee",
         )
 
-        # Create employee profile
+        
         EmployeeProfile.objects.create(
             user=user,
             phone=self.cleaned_data["phone"],

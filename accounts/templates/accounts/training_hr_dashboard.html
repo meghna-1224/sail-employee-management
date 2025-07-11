@@ -1,6 +1,6 @@
 {% extends "accounts/base.html" %}
 {% block content %}
-<!-- ✅ HR Profile Card -->
+
 <div class="hr-profile-card" style="border:1px solid #ddd; padding:15px; border-radius:8px; background:#f9f9f9; margin-bottom:20px;">
   <h2>Welcome, {{ profile.user.first_name }} {{ profile.user.last_name }} ({{ profile.get_hr_role_display }})</h2>
   <p><strong>Username:</strong> {{ profile.user.username }}</p>

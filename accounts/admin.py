@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Department, EmployeeProfile, HRProfile, CustomUser, SalaryRecord, BankDetail, TaxRecord, TrainingProgram, EmployeeTrainingRecord, AttendanceRecord, Attendance, Post
-from .forms import CustomUserCreationForm # type: ignore
+from .forms import CustomUserCreationForm 
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm

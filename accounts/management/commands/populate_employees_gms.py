@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         fake = Faker()
 
-        # Exclude C&IT and Legal & Corporate Affairs
+        
         excluded_departments = ["C&IT", "Legal & Corporate Affairs"]
         departments = Department.objects.exclude(name__in=excluded_departments)
 
@@ -28,9 +28,9 @@ class Command(BaseCommand):
                 else "Not Assigned"
             )
 
-            # ✅ Create user with create_user (handles hashing)
+            
             user = CustomUser.objects.create_user(
-                username=None,  # triggers auto-generation
+                username=None,  
                 password="EMPsecure@123",
                 email=fake.email(),
                 first_name=fake.first_name(),
@@ -38,7 +38,7 @@ class Command(BaseCommand):
                 role="employee"
             )
 
-            # ✅ Create EmployeeProfile
+            
             EmployeeProfile.objects.create(
                 user=user,
                 phone=fake.numerify(text="9#########"),
@@ -52,12 +52,12 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f"✅ Created {num_employees} Employee records."))
 
-        # ✅ Create General Managers
+        
         num_gms = 3
 
         for _ in range(num_gms):
             gm_user = CustomUser.objects.create_user(
-                username=None,  # auto-generate
+                username=None,  
                 password="GMsecure@123",
                 email=fake.email(),
                 first_name=fake.first_name(),
